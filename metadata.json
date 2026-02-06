@@ -1,0 +1,8 @@
+{
+  "name": "MEDVIDA - Telemedicina de Confiança",
+  "description": "Uma plataforma completa de telemedicina focada em oferecer consultas de qualidade com nutricionistas, psiquiatras, clínicos gerais e psicólogos de forma rápida e segura.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
