@@ -194,7 +194,31 @@ export const DOCTORS: Doctor[] = [
 ];
 
 export const TESTIMONIALS = [
-  { name: 'Ana Silva', rating: 5, text: 'Excelente atendimento! Consegui minha consulta em poucos minutos. Recomendo!', image: 'https://picsum.photos/seed/user1/100/100' },
-  { name: 'Marcos Oliveira', rating: 5, text: 'Muito prático e seguro. O psiquiatra me ajudou muito.', image: 'https://picsum.photos/seed/user2/100/100' },
-  { name: 'Sofia Costa', rating: 5, text: 'Fácil de usar, os médicos são atenciosos.', image: 'https://picsum.photos/seed/user3/100/100' },
+  { 
+    name: 'Ana Lúcia Ribeiro', 
+    rating: 5, 
+    text: 'Finalmente uma telemedicina que entende o brasileiro. Recebi minha receita direto no Zap e a farmácia aceitou na hora. Sensacional!', 
+    image: 'https://i.ibb.co/WvtcCM0M/meiaidadefloresta.jpg' 
+  },
+  { 
+    name: 'Sr. João Pereira', 
+    rating: 5, 
+    text: 'Aos 65 anos achei que não ia conseguir usar, mas foi muito simples. O Dr. Roberto foi muito paciente. Saúde em primeiro lugar sempre.', 
+    image: 'https://i.ibb.co/21W1m5bS/velhopescando.jpg' 
+  },
+  { 
+    name: 'Mariana Souza', 
+    rating: 5, 
+    text: 'Amei a praticidade. Fiz a consulta na minha hora de almoço e já saí com o pedido de exames digital. MedVida salvou meu dia!', 
+    image: 'https://i.ibb.co/4R6mQx3X/meninacachu.jpg' 
+  },
+];
+
+export const DOCTOR_REVIEWS = [
+  { name: 'Ricardo Silva', image: 'https://i.ibb.co/1YKFYNTR/meiaidadetrilha.jpg', text: 'Atendimento nota 10. Muito direto ao ponto e o sistema de token é muito seguro.' },
+  { name: 'Carla Menezes', image: 'https://i.ibb.co/d45ZJC9s/sentadanorestaurante.jpg', text: 'Excelente médica. Me sinto ouvida e acolhida mesmo sendo por vídeo.' },
+  { name: 'Dona Irene', image: 'https://i.ibb.co/HTdQWsbH/velhanaflor.jpg', text: 'Maravilhoso! O atestado chegou no meu e-mail rapidinho. Recomendo para todos.' },
+  { name: 'Sr. Benedito', image: 'https://i.ibb.co/3yzkPk4S/velhonafazenda.jpg', text: 'Muito bom o atendimento. O médico explicou tudo sobre o meu tratamento com clareza.' },
+  { name: 'Beatriz Lima', image: 'https://i.ibb.co/fGxGxG3x/vestidopraia.jpg', text: 'Prático demais. Não perco mais tempo em fila de hospital para pegar receita branca.' },
+  { name: 'Eunice Gomes', image: 'https://i.ibb.co/bjr8hrfc/velhanavinicula.jpg', text: 'Pela primeira vez sinto que a tecnologia veio para facilitar a nossa vida na saúde.' },
 ];

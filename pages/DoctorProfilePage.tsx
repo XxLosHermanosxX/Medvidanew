@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Doctor } from '../types';
+import { DOCTOR_REVIEWS } from '../constants';
 
 interface DoctorProfilePageProps {
   doctor: Doctor;
@@ -19,6 +20,9 @@ const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({ doctor, onBook })
     { n: 16, l: 'QUI' },
     { n: 17, l: 'SEX' },
   ];
+
+  // Pick two random reviews for this doctor
+  const profileReviews = DOCTOR_REVIEWS.sort(() => 0.5 - Math.random()).slice(0, 2);
 
   return (
     <div className="bg-light-gray min-h-screen py-10 px-6">
@@ -78,19 +82,19 @@ const DoctorProfilePage: React.FC<DoctorProfilePageProps> = ({ doctor, onBook })
             <section>
               <h2 className="text-2xl font-bold mb-6 text-primary flex items-center gap-2">
                 <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-sm">🗨️</span>
-                Avaliações de Pacientes
+                Avaliações Recentes ({doctor.reviewCount})
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[1, 2].map((i) => (
-                  <div key={i} className="bg-light-gray p-6 rounded-2xl">
-                    <div className="flex justify-between items-center mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
-                        <p className="font-bold text-sm">Paciente #{i}</p>
+                {profileReviews.map((rev, i) => (
+                  <div key={i} className="bg-gradient-to-br from-white to-blue-50/30 p-8 rounded-[2.5rem] shadow-sm border border-blue-50 flex gap-5 items-start">
+                    <img src={rev.image} className="w-14 h-14 rounded-2xl object-cover shadow-md border-2 border-white" alt={rev.name} />
+                    <div className="flex-grow">
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="font-black text-[#003B73] text-sm">{rev.name}</p>
+                        <span className="text-accent text-[10px]">★★★★★</span>
                       </div>
-                      <span className="text-accent text-xs">★★★★★</span>
+                      <p className="text-xs text-gray-500 leading-relaxed italic font-medium">"{rev.text}"</p>
                     </div>
-                    <p className="text-sm text-gray-500 italic">"Atendimento fantástico, muito atencioso e explicou tudo com clareza. Me senti muito segura."</p>
                   </div>
                 ))}
               </div>

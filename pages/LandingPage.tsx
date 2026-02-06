@@ -18,19 +18,19 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Auto-scrolling logic for the featured items
+  // Auto-scrolling logic for the featured items - Stepped Scroll
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
 
-    let scrollStep = 1;
+    const scrollStep = 320 + 32; // Card width + gap
     const interval = setInterval(() => {
       if (slider.scrollLeft >= slider.scrollWidth - slider.clientWidth) {
-        slider.scrollLeft = 0;
+        slider.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
-        slider.scrollLeft += scrollStep;
+        slider.scrollBy({ left: scrollStep, behavior: 'smooth' });
       }
-    }, 30);
+    }, 4000); // 4 seconds pause per doctor
 
     return () => clearInterval(interval);
   }, []);
@@ -138,76 +138,62 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-lg mx-auto bg-[#F0F7FF] rounded-[3rem] p-10 flex justify-between gap-4 border border-blue-50 shadow-inner">
-          <div className="flex flex-col items-center text-center gap-4 flex-1">
-            <div className="w-14 h-14 flex items-center justify-center text-[#003B73] bg-white rounded-2xl shadow-sm">
-              <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14 8h1a2 2 0 110 4h-1m-2 4h1a2 2 0 110 4h-1m-4-8H7a2 2 0 110-4h1m2 4v10m0-10V4m-2 4h4m-4 8h4m-4 4h4"/></svg>
-            </div>
-            <div className="space-y-0.5">
-              <p className="text-3xl font-black text-[#003B73]">10,000+</p>
-              <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest opacity-80">pacientes</p>
-            </div>
-          </div>
-          <div className="w-[2px] bg-blue-100/60 h-24 self-center"></div>
-          <div className="flex flex-col items-center text-center gap-4 flex-1">
-            <div className="w-14 h-14 flex items-center justify-center text-[#003B73] bg-white rounded-2xl shadow-sm">
-              <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            </div>
-            <div className="space-y-0.5">
-              <p className="text-3xl font-black text-[#003B73]">500+</p>
-              <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest opacity-80">médicos</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Auto-rolling Doctor & Bio Slider */}
-      <section className="py-24 px-4 overflow-hidden bg-white">
+      {/* Auto-rolling Doctor Section with Indicator */}
+      <section className="py-24 px-4 overflow-hidden bg-white relative">
         <div className="max-w-lg mx-auto mb-10 flex justify-between items-center px-6">
           <h2 className="text-2xl font-black text-[#003B73] uppercase tracking-tight">Nossos Profissionais</h2>
           <span onClick={() => onNavigate('specialties')} className="text-[12px] font-black text-secondary tracking-widest uppercase cursor-pointer hover:underline underline-offset-4">Ver todos</span>
         </div>
         
-        <div 
-          ref={sliderRef}
-          className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory px-8 pb-12"
-        >
-          {DOCTORS.map((doc) => (
-            <div key={doc.id} className="min-w-[320px] snap-center bg-white rounded-[3.5rem] border border-gray-50 shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-8 flex flex-col items-center text-center transition-all hover:shadow-2xl hover:-translate-y-2">
-              <div className="relative mb-8">
-                <div className="w-40 h-40 rounded-[2.5rem] overflow-hidden border-4 border-blue-50 shadow-xl relative group">
-                  <img 
-                    src={doc.imageUrl} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
-                    alt={doc.name} 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#003B73]/40 to-transparent"></div>
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full shadow-lg border border-white/20">
-                    <img src="https://i.ibb.co/MxSb0g9N/logo-medvida-horizontal.png" className="h-3 md:h-4" alt="MedVida" />
+        <div className="relative group">
+          <div 
+            ref={sliderRef}
+            className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory px-8 pb-12 scroll-smooth"
+          >
+            {DOCTORS.map((doc) => (
+              <div key={doc.id} className="min-w-[320px] snap-center bg-white rounded-[3.5rem] border border-gray-50 shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-8 flex flex-col items-center text-center transition-all hover:shadow-2xl hover:-translate-y-2">
+                <div className="relative mb-8">
+                  <div className="w-40 h-40 rounded-[2.5rem] overflow-hidden border-4 border-blue-50 shadow-xl relative group">
+                    <img 
+                      src={doc.imageUrl} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
+                      alt={doc.name} 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#003B73]/40 to-transparent"></div>
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full shadow-lg border border-white/20">
+                      <img src="https://i.ibb.co/MxSb0g9N/logo-medvida-horizontal.png" className="h-3 md:h-4" alt="MedVida" />
+                    </div>
                   </div>
                 </div>
+                <h3 className="font-black text-[#003B73] text-xl mb-1 uppercase tracking-tight">{doc.name}</h3>
+                <p className="text-[12px] text-secondary font-black tracking-[0.2em] uppercase mb-6 opacity-80">{doc.specialty}</p>
+                <p className="text-sm text-gray-500 leading-relaxed line-clamp-4 italic mb-8 px-4">"{doc.bio}"</p>
+                
+                <button 
+                  onClick={() => onNavigate('specialties')}
+                  className="w-full py-5 rounded-[2rem] bg-[#F5F9FF] text-[#003B73] text-[11px] font-black tracking-[0.2em] uppercase hover:bg-blue-100 transition-colors shadow-sm"
+                >
+                  Conhecer Perfil
+                </button>
               </div>
-              <h3 className="font-black text-[#003B73] text-xl mb-1 uppercase tracking-tight">{doc.name}</h3>
-              <p className="text-[12px] text-secondary font-black tracking-[0.2em] uppercase mb-6 opacity-80">{doc.specialty}</p>
-              <p className="text-sm text-gray-500 leading-relaxed line-clamp-4 italic mb-8 px-4">"{doc.bio}"</p>
-              
-              <button 
-                onClick={() => onNavigate('specialties')}
-                className="w-full py-5 rounded-[2rem] bg-[#F5F9FF] text-[#003B73] text-[11px] font-black tracking-[0.2em] uppercase hover:bg-blue-100 transition-colors shadow-sm"
-              >
-                Conhecer Perfil
-              </button>
+            ))}
+          </div>
+          
+          {/* Pulsing Navigation Arrow */}
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none animate-pulse-slow">
+            <div className="bg-[#FFB81C]/20 p-4 rounded-full backdrop-blur-sm border border-[#FFB81C]/30 shadow-2xl">
+              <svg className="w-8 h-8 text-[#003B73]" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      {/* NEW: Prescription & Certificates Ecosystem Section */}
+      {/* Prescription & Certificates Ecosystem Section with Facilitation CTA */}
       <section className="py-24 px-6 bg-[#F8FBFF] relative overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
-          <div className="text-center mb-16 space-y-4">
+          <div className="text-center mb-16 space-y-6">
              <div className="inline-flex items-center gap-2 bg-blue-100/50 text-[#003B73] px-5 py-2 rounded-full border border-blue-100">
                <span className="text-[10px] font-black uppercase tracking-[0.3em]">Emissão Nativa & Legal</span>
              </div>
@@ -215,10 +201,20 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
              <p className="text-gray-500 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
                Nossas prescrições são emitidas diretamente no sistema <strong className="text-[#003B73]">CREMESP / SNCR</strong>, garantindo aceitação nacional em farmácias e laboratórios conforme a <strong className="text-secondary underline underline-offset-4 decoration-2">RDC 1000/2025 da ANVISA</strong>.
              </p>
+             
+             {/* Cognitive Facilitation CTA */}
+             <div className="pt-4">
+                <button 
+                  onClick={() => alert('Abrindo portal de verificação de documentos...')}
+                  className="group flex items-center gap-4 bg-white border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-all px-8 py-4 rounded-[2rem] font-black text-xs uppercase tracking-widest shadow-xl shadow-green-100"
+                >
+                  <svg className="w-5 h-5 transition-transform group-hover:scale-125" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                  Consultar Meu Documento Agora
+                </button>
+             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 w-full">
-            {/* Step 1: Physician Auth */}
             <div className="bg-white p-10 rounded-[3.5rem] shadow-xl border border-gray-100 flex flex-col items-center text-center group hover:-translate-y-2 transition-transform">
                <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-[#003B73] mb-8 group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
@@ -230,7 +226,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                </div>
             </div>
 
-            {/* Step 2: Patient Token */}
             <div className="bg-white p-10 rounded-[3.5rem] shadow-xl border border-gray-100 flex flex-col items-center text-center group hover:-translate-y-2 transition-transform relative">
                <div className="absolute top-8 right-8 w-3 h-3 bg-secondary rounded-full animate-ping"></div>
                <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center text-secondary mb-8 group-hover:scale-110 transition-transform">
@@ -243,7 +238,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                </div>
             </div>
 
-            {/* Step 3: Pharmacy QR Code */}
             <div className="bg-[#003B73] p-10 rounded-[3.5rem] shadow-2xl border border-[#003B73] flex flex-col items-center text-center group hover:-translate-y-2 transition-transform">
                <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white mb-8 group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h2M4 8h12m-8 8h.01M4 16h4m12 0h2"/></svg>
@@ -254,18 +248,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                   <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" className="w-16 h-16" alt="QR" />
                </div>
             </div>
-          </div>
-
-          <div className="mt-16 p-8 bg-white/50 backdrop-blur-md border border-white rounded-[3rem] max-w-4xl w-full flex flex-col md:flex-row items-center gap-8 shadow-sm">
-             <div className="bg-[#FFB81C] p-6 rounded-3xl">
-                <svg className="w-10 h-10 text-[#003B73]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-             </div>
-             <div className="flex-grow text-center md:text-left space-y-2">
-                <p className="text-[10px] font-black text-secondary uppercase tracking-[0.3em]">Nota Jurídica ANVISA</p>
-                <p className="text-xs text-gray-400 font-bold leading-relaxed uppercase tracking-widest">
-                  Conforme a <span className="text-[#003B73]">RDC 1000/2025</span> aprovada em Dezembro de 2025, toda prescrição de controle especial deve ser digital e nativa via Sistema Nacional de Controle de Receituários (SNCR).
-                </p>
-             </div>
           </div>
         </div>
       </section>
@@ -291,37 +273,28 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Final Plans CTA Section */}
       <section className="py-24 px-6 bg-[#003B73] relative overflow-hidden border-t border-white/10">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
           <div className="absolute top-10 left-10 w-64 h-64 bg-secondary rounded-full blur-[120px]"></div>
           <div className="absolute bottom-10 right-10 w-64 h-64 bg-primary rounded-full blur-[120px]"></div>
         </div>
-
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <span className="text-[10px] font-black text-secondary uppercase tracking-[0.5em] mb-4 block">Saúde Sem Limites</span>
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-8 uppercase tracking-tight leading-tight">
-            Cuidado Contínuo para Você e sua Família
-          </h2>
-          <p className="text-blue-100/70 text-lg mb-12 font-medium">
-            Garanta consultas ilimitadas, descontos em exames e suporte 24h com nossos planos a partir de R$ 39/mês.
-          </p>
-          <button
-            onClick={() => onNavigate('plans')}
-            className="bg-[#FFB81C] text-[#003B73] px-12 py-6 rounded-3xl font-black text-lg uppercase tracking-widest hover:scale-110 transition-transform shadow-[0_20px_50px_rgba(255,184,28,0.3)]"
-          >
-            Ver Todos os Planos
-          </button>
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-8 uppercase tracking-tight leading-tight">Cuidado Contínuo para Você e sua Família</h2>
+          <p className="text-blue-100/70 text-lg mb-12 font-medium">Garanta consultas ilimitadas, descontos em exames e suporte 24h com nossos planos a partir de R$ 39/mês.</p>
+          <button onClick={() => onNavigate('plans')} className="bg-[#FFB81C] text-[#003B73] px-12 py-6 rounded-3xl font-black text-lg uppercase tracking-widest hover:scale-110 transition-transform shadow-[0_20px_50px_rgba(255,184,28,0.3)]">Ver Todos os Planos</button>
         </div>
       </section>
 
       <style>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.3; transform: translateY(-50%) translateX(0px); }
+          50% { opacity: 1; transform: translateY(-50%) translateX(10px); }
         }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+        .animate-pulse-slow {
+          animation: pulse-slow 3s ease-in-out infinite;
         }
       `}</style>
     </div>
