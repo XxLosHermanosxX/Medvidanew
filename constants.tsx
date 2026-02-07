@@ -92,6 +92,30 @@ export const PLANS: Plan[] = [
   }
 ];
 
+export const MEDIA_TESTIMONIALS = [
+  {
+    author: "Marcos Ribeiro",
+    role: "Colunista Veja",
+    text: "A MEDvida ataca o ponto mais crítico da saúde no Brasil: acesso. O modelo combina disponibilidade médica contínua com preços que não afastam o paciente do cuidado.",
+    logo: "https://i.ibb.co/M5pqGgdT/Veja-svg.png",
+    image: "https://i.ibb.co/zjNYtqW/Marcos-Ribeiro-Colunistaveja.png"
+  },
+  {
+    author: "Lucas Mendonça",
+    role: "Colunista da Exame",
+    text: "Enquanto muitas healthtechs vendem tecnologia, a MEDvida vende resolução. O foco em disponibilidade e continuidade cria vantagem competitiva real.",
+    logo: "https://i.ibb.co/RGTWKz8g/exame-logo-0.png",
+    image: "https://i.ibb.co/fd8QDSH5/image.png"
+  },
+  {
+    author: "Thiago Brandão",
+    role: "Colunista do InfoMoney",
+    text: "Telemedicina só funciona quando há médicos disponíveis e custo previsível. A MEDvida entendeu isso desde o início.",
+    logo: "https://i.ibb.co/d0x2Y0sb/infomoney-logo-0.png",
+    image: "https://i.ibb.co/3yzkPk4S/velhonafazenda.jpg"
+  }
+];
+
 export const DOCTORS: Doctor[] = [
   {
     id: '1',
@@ -117,7 +141,7 @@ export const DOCTORS: Doctor[] = [
     price: 14.99,
     availability: 'Hoje às 14:30',
     imageUrl: 'https://i.ibb.co/ZR6cKVH8/medico-v2-02-homem-branco-50.png',
-    bio: 'Especialista em saúde mental com foco em transtornos de ansiedade e depressão em adultos.',
+    bio: 'Especialista em saúde mental com foco em transtornos de ansiedade e depression em adultos.',
     education: ['Medicina - UFC', 'Residência em Psiquiatria - USP'],
     certifications: ['Membro Titular da ABP']
   },
