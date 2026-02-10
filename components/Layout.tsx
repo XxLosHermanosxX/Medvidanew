@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,6 +9,31 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, onNavigate, currentPage }) => {
   const isLanding = currentPage === 'landing';
+  const [showMobileMenu, setShowMobileMenu] = useState(!isLanding);
+
+  useEffect(() => {
+    // If not on landing page, menu should always be visible
+    if (!isLanding) {
+      setShowMobileMenu(true);
+      return;
+    }
+
+    // Threshold for the "first container" (Hero section)
+    const handleScroll = () => {
+      const threshold = window.innerHeight * 0.85; 
+      if (window.scrollY > threshold) {
+        setShowMobileMenu(true);
+      } else {
+        setShowMobileMenu(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Run once to check initial state
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isLanding, currentPage]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
@@ -62,8 +87,8 @@ const Layout: React.FC<LayoutProps> = ({ children, onNavigate, currentPage }) =>
         {children}
       </main>
 
-      {/* Mobile Bottom Navigation Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-[60] bg-white border-t flex justify-around py-4 px-2 shadow-[0_-8px_30px_rgba(0,0,0,0.06)]">
+      {/* Mobile Bottom Navigation Bar - Conditional Visibility */}
+      <div className={`md:hidden fixed bottom-0 left-0 right-0 z-[60] bg-white border-t flex justify-around py-4 px-2 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] transition-all duration-700 ease-in-out transform ${showMobileMenu ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
         <button onClick={() => onNavigate('landing')} className={`flex flex-col items-center gap-1.5 ${isLanding ? 'text-[#003B73]' : 'text-gray-300'}`}>
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           <span className="text-[9px] font-black uppercase tracking-tight">Início</span>
